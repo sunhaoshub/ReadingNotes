@@ -23,9 +23,49 @@ i << 1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0
 Eigen::Matrix<float,3,4> matrix_3x4 = Eigen::Matrix<float,3,4>::Constant(1.0f)
 ```
 
+4.定义一个50维的浮点数向量
+
+```C++
+VectorXf a(50f);
+```
+
 
 
 ## Addition and subtraction
 
 Eigen库不做自动类型推导
 
+正常的加减乘即可，注意维度
+
+## Transposition and conjugation
+
+​	实现矩阵转置：transpose()函数
+
+​	transpose()并不执行运算，只有再进行赋值运算的时候才会真正运算；
+
+```C++
+Eigen::Matrix3f a;
+a << 1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0;
+a,transpose();
+//输出结果是没有转置的
+std::cout<<a<<std::endl;
+Eigen::Matrix3f b = a.transpose();
+//转置
+std::cout<<b<<std::endl;
+```
+
+​	不能复制给自身，如：
+
+```C++
+a = a.transpose();
+```
+
+​	可以使用：
+
+```C++
+a.transposeInPlace();
+```
+
+点乘，叉乘
+
+​	dot(),cross()
