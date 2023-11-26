@@ -143,6 +143,10 @@ $$
 
 没有“近大远小”的性质
 
+![image-20231125221222360](C:\Users\sunha\Desktop\book\ReadingNotes\games101\transformation.assets\image-20231125221222360.png)
+
+​	定义了六个点 x轴上的左、右（l，r），y轴上的上、下（t，b）z轴上的远近（n，f）
+
 ![image-20231116214822070](C:\Users\sunha\AppData\Roaming\Typora\typora-user-images\image-20231116214822070.png)
 
 ### Perspective（透视） projection
@@ -169,4 +173,18 @@ $$
 
 ​	3.远平面中心点不变
 
+![image-20231125222704488](C:\Users\sunha\Desktop\book\ReadingNotes\games101\transformation.assets\image-20231125222704488.png)
+
+沿x轴负方向看（从侧面看），得到y和z的对应关系，从y轴负方向看，得到x和z的对应关系
+
+
+
+
+
+
+
+
+
 ![image-20231116222254110](C:\Users\sunha\AppData\Roaming\Typora\typora-user-images\image-20231116222254110.png)
+
+![image-20231125223725060](C:\Users\sunha\Desktop\book\ReadingNotes\games101\transformation.assets\image-20231125223725060.png)

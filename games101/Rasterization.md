@@ -24,13 +24,33 @@
 
 ![image-20231118210136914](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231118210136914.png)
 
+
+
 ![image-20231118210435402](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231118210435402.png)
 
 ## 如何在成像设备上画东西？如何把三维空间中的多边形变到屏幕上？
 
 ### 判断一个像素的中心点和三角形的关系
 
+​	显示的图像其实是内存中的一块区域（显存）
+
 * 采样
+
+![image-20231126212456686](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231126212456686.png)
+
+
+
+```c++
+for(int x = 0;x <x_max;x++)
+    for(int y = 0; y < y_max;y++)
+        imag[x][y] = inside(tri,x+0.5,y+0.5);
+```
+
+
+
+
+
+
 
 ![](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-2023111821541237.png)
 
@@ -50,23 +70,59 @@
 
 ## 频域（Frequency Domain）
 
+![image-20231126222606312](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231126222606312.png)
+
+​	通过傅里叶展开，我们可以中的任何一个函数可以拆解成不同的频率
+
+
+
 ![](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231122223040956.png)
 
 走样：同样的采样频率去采样两个不同的函数，得到的结果无法区分
 
 ![image-20231122223419851](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231122223419851.png)
 
-傅里叶变换可以把一个函数从时域变到频域
+滤波：去掉某些频段的点
+
+傅里叶变换可以把一个函数从时域变到频域，中心定义为最低频的区域，周围定义为最高频的区域
+
+
+
+高通滤波：只允许高频信号通过，获得图像边界（在边界处，信号变化得很快）
+
+![image-20231126223901622](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231126223901622.png)
+
+
+
+
+
+
+
+
+
+
 
 滤波 = 卷积（平均）
 
 ![image-20231122224817413](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231122224817413.png)
 
+
+
+
+
+卷积定理：时域上对两个信号卷积，其实对应到两个信号各自的频域上，是各自信号频域的乘积，再做逆傅里叶变换；
+
+即：时域的卷积 = 频域的乘积；
+
+
+
+
+
 ![image-20231122224927662](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231122224927662.png)
 
 ![image-20231122225200493](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Rasterization.assets\image-20231122225200493.png)
 
-采样就是重复频率的内容
+采样就是重复频域的内容
 
 如何做采样？
 
