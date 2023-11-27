@@ -103,6 +103,22 @@ var a = fintion(x){
 
 
 
+map()：
+
+​	返回一个数组，数组内容为原始数组调用函数处理后的结果
+
+
+
+
+
+
+
+
+
+
+
+
+
 操作BOM：
 
 BOM：浏览器对象模型
@@ -116,6 +132,18 @@ location 当前页面的url信息
 document：当前页面，html dom树
 
 ​	获取cookie：document.cookie
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
