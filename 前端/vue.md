@@ -243,7 +243,44 @@ v-bind:title="message"的含义是将该元素节点的title与Vue实例的messa
 
 # 计算属性和侦听器
 
+## 计算属性
 
+```html
+<!DOCTYPE html>
+<html>
+    <title>
+        chapter1
+    </title>
+    <body>
+        <div id="example">
+            <p>Original message: "{{ message }}"</p>
+            <p>Computed reversed message: "{{ reversedMessage }}"</p>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+        var app = new Vue({
+            el: '#example',
+            data:{
+                message: 'Hello,World!'
+            },
+            computed:{
+                reversedMessage:function(){
+                    return this.message.split('').reverse().join('');
+                }
+            }
+        });
+    </script>
+</html>
+```
+
+​		**计算属性是基于它们的响应式依赖进行缓存的**。只在相关响应式依赖发生改变时它们才会重新求值。这就意味着只要 `message` 还没有发生改变，多次访问 `reversedMessage` 计算属性会立即返回之前的计算结果。
+
+## 侦听器
+
+​	 Vue 通过 `watch` 选项提供了一个更通用的方法，来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
+
+​	
 
 # Vue3
 
