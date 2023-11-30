@@ -1,4 +1,4 @@
-​	如何把多个三角形画在屏幕上，并且让其遮挡关系是正确的？（可见性/遮挡性）
+	如何把多个三角形画在屏幕上，并且让其遮挡关系是正确的？（可见性/遮挡性）
 
 ​		深度缓存/缓冲（Z-buffering）
 
@@ -46,6 +46,42 @@ Shading:对不同物体应用不同材质
 
 # 漫反射（Diffuse Reflection）
 
-​	一束光线打到物体上，会均匀地向四周反射
+## Blinn_Phong Reflectance Model	
+
+一束光线打到物体上，会均匀地向四周反射
+
+
+
+着色会形成三种不同的部分：高光、漫反射、间接光照
+
+![image-20231130221321699](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130221321699.png)
+
+
+
+
+
+目前不考虑阴影的生成
+
+
+
+
+
+法线和光线的夹角决定了物体表面的亮度
 
 ![image-20231127225300643](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231127225300643.png)
+
+
+
+假定能量是一个点光源，那么每一个时刻它所散发的能量一定集中在一个球壳上
+
+
+
+![image-20231130222908196](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130222908196.png)
+
+
+
+
+
+![image-20231130223136295](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130223136295.png)
+
+吸收颜色，反射自己不能吸收的颜色
