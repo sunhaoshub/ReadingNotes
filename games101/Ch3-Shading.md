@@ -50,7 +50,7 @@ Shading:对不同物体应用不同材质
 
 
 
-着色会形成三种不同的部分：高光、漫反射、间接光照
+着色会形成三种不同的部分：**高光、漫反射、间接光照**
 
 ![image-20231130221321699](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130221321699.png)
 
@@ -62,9 +62,9 @@ Shading:对不同物体应用不同材质
 
 
 
+## 漫反射项
 
-
-法线和光线的夹角决定了物体表面的亮度
+**法线和光线的夹角**决定了物体表面的亮度
 
 ![image-20231127225300643](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231127225300643.png)
 
@@ -82,11 +82,15 @@ Shading:对不同物体应用不同材质
 
 ![image-20231130223136295](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130223136295.png)
 
-吸收颜色，反射自己不能吸收的颜色
+shading point有颜色的原因：吸收颜色，反射自己不能吸收的颜色
 
+漫反射系数kd：为1，表示不吸收任何颜色，即反光；0表示纯黑。用kd来表示明暗。
 
+和观测方向无关
 
-观察方向和镜面反射方向接近的时候可以看到高光；
+## 高光项
+
+观察方向和**镜面反射方向**接近的时候可以看到高光；
 
 ![image-20231130230849596](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130230849596.png)
 
@@ -94,7 +98,17 @@ Shading:对不同物体应用不同材质
 
 
 
-环境光（间接光照）：目前认为是一个常数
+## 环境光（间接光照）
+
+目前认为是一个常数
+
+![image-20231203184536089](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231203184536089.png)
+
+
+
+## 结合
+
+
 
 ![image-20231130231533172](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130231533172.png)
 
@@ -103,6 +117,18 @@ Shading:对不同物体应用不同材质
 ![image-20231130232820545](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231130232820545.png)
 
 逐个三角形-》逐个顶点-》逐个像素
+
+![image-20231203190015002](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231203190015002.png)
+
+![image-20231203190038436](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231203190038436.png)
+
+![image-20231203190156492](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231203190156492.png)
+
+
+
+
+
+
 
 如何求顶点的法线？
 
@@ -124,6 +150,48 @@ Shader是通用的，适用于每一个顶点或像素
 
 把一张图贴在物体表面，假设已经知道了三角形的对应关系
 
+纹理是用来定义着色时各个不同点的属性
+
 如何定义一个点的基本属性？
 
 ![image-20231201001852846](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231201001852846.png)
+
+## 重心坐标
+
+​	实现三角形内部**平滑的过度**；
+
+![image-20231202151106708](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231202151106708.png)
+
+​	三角形内部任意一点的重心坐标，可以通过面积比来计算
+
+![image-20231202152147812](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231202152147812.png)
+
+![image-20231203194946879](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231203194946879.png)
+
+
+
+三角形的重心，三个参数都是1/3
+
+在三维空间中应该对三维空间做插值，再对应到二维结果上去
+
+## 如何把纹理应用到实际的插值中？
+
+![image-20231203200321455](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231203200321455.png)
+
+问题：分辨率高但是纹理小，导致纹理被拉大，这导致在一个范围内都是相同的纹理元素
+
+
+
+
+
+## 双线性插值
+
+给定非整数坐标如何得到值
+
+![image-20231203200918348](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231203200918348.png)
+
+![image-20231202163549756](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231202163549756.png)
+
+## Mipmap
+
+允许做近似的、正方形的快速范围查询
