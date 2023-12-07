@@ -31,6 +31,8 @@ $$
 
 通过（0，1），（1，0）两个特殊的点推导；
 
+
+
 # 齐次坐标
 
 ![image-20231115215602146](C:\Users\sunha\AppData\Roaming\Typora\typora-user-images\image-20231115215602146.png)
@@ -92,6 +94,8 @@ $$
 R_{xyz}(\alpha,\beta,\gamma)=R_x(\alpha)R_y(\beta)R_z(\gamma)
 $$
 ​	绕任意轴旋转：先把物体移到原点，在原点进行旋转，把旋转后的结果移回去
+
+## 罗德里格斯公式
 
 # Viewing（观测） transformation
 
@@ -188,3 +192,15 @@ $$
 ![image-20231116222254110](C:\Users\sunha\AppData\Roaming\Typora\typora-user-images\image-20231116222254110.png)
 
 ![image-20231125223725060](C:\Users\sunha\Desktop\book\ReadingNotes\games101\transformation.assets\image-20231125223725060.png)
+
+![image-20231207215751427](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch1-Transformation.assets\image-20231207215751427.png)
+
+![image-20231207215813879](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch1-Transformation.assets\image-20231207215813879.png)
+
+
+
+![image-20231207215827136](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch1-Transformation.assets\image-20231207215827136.png)
+
+
+
+![image-20231207215441356](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch1-Transformation.assets\image-20231207215441356.png)

@@ -6,6 +6,16 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 ```
 
+## 数据代理
+
+Object.defineProperty(添加属性的对象，属性名，{配置项})
+
+![image-20231207154012584](C:\Users\sunha\Desktop\book\ReadingNotes\前端\vue.assets\image-20231207154012584.png)
+
+获取数据：get，设置数据：set
+
+![image-20231207161844708](C:\Users\sunha\Desktop\book\ReadingNotes\前端\vue.assets\image-20231207161844708.png)
+
 ## 声明式渲染
 
 ​	vue的核心就是允许用**模板语法**来**声明式**地将数据渲染到DOM中
@@ -23,9 +33,11 @@
     </body>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script>
+        //构造函数，参数是一个对象
         var app = new Vue({
-            //el ： 指定挂载地元素
+            //el ： 指定挂载地元素，通常是id选择器
             el: '#app',
+            //对象
             data:{
                 message: 'Hello,World!'
             }
@@ -35,6 +47,8 @@
 ```
 
 ​	所有的东西都是响应式的，在控制台修改app.message，画面中的值也对应改变；
+
+​	构造函数和容器是一一对应的关系
 
 ###  v-bind
 
@@ -164,7 +178,42 @@ v-bind:title="message"的含义是将该元素节点的title与Vue实例的messa
 </html>
 ```
 
+v-on:click="xxx" == @click="xxx"
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue Slot Demo</title>
+  </head>
+  <body>
+    <div id="root">
+     <button v-on:click="showInfo($event,66)">test</button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      const vm = new Vue({
+        el:'#root',
+        data:{
+          name:'尚硅谷',
+          address:'鸿福科技园'
+        },
+        methods:{
+          showInfo(event,number){
+            console.log(event.target.innerHTML,number);
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
+```
+
+
+
 #### v-model
+
+实现双向数据据绑定，只能用在表单类型的数据
 
 ### 组件化应用
 
@@ -221,7 +270,30 @@ v-bind:title="message"的含义是将该元素节点的title与Vue实例的messa
 
 把文本解析为HTML：v-html
 
-## 动态参数
+## 指令语法
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue Slot Demo</title>
+  </head>
+  <body>
+    <div id="root">
+     <a :href="url">test</a>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el:'#root',
+        data:{
+          url:'http://www.atguigu.com'
+        }
+      })
+    </script>
+  </body>
+</html>
+```
 
 
 
@@ -280,7 +352,229 @@ v-bind:title="message"的含义是将该元素节点的title与Vue实例的messa
 
 ​	 Vue 通过 `watch` 选项提供了一个更通用的方法，来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
 
-​	
+# 组件基础
+
+```html
+<!DOCTYPE html>
+<html>
+    <title>
+
+    </title>
+    <body>
+        <div id="components-demo">
+            <button-counter></button-counter>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        Vue.component(
+            'button-counter',{
+                data:function(){
+                    return {
+                        count:0,
+                    }
+                },
+                template:'<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+            }
+        )
+
+        new Vue({ el: '#components-demo' })
+    </script>
+</html>
+```
+
+​	可以多次复用，每次复用都会创建新的实例
+
+​	data必须是一个函数
+
+​	全局注册的组件可以用在其被注册之后的任何 (通过 `new Vue`) 新创建的 Vue 根实例，也包括其组件树中的所有子组件的模板中。
+
+## 通过Prop向子组件传递数据
+
+​	Prop是你可以在组件上注册的一些自定义的attribute。当一个值传递给一个prop attribute时，它就变成了那个组件实例的一个property。
+
+```html
+<!DOCTYPE html>
+<html>
+    <title>
+
+    </title>
+    <body>
+        <div id="components-demo">
+            <blog-post title="My journey with Vue"></blog-post>
+            <blog-post title="Blogging with Vue"></blog-post>
+            <blog-post title="Why Vue is so fun"></blog-post>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        Vue.component(
+            'blog-post',{
+                props:['title'],
+                template:'<h3>{{ title }}</h3>'
+        })
+
+        new Vue({ el: '#components-demo' })
+    </script>
+</html>
+```
+
+
+
+![image-20231206095943200](C:\Users\sunha\Desktop\book\ReadingNotes\前端\vue.assets\image-20231206095943200.png)
+
+```html
+<!DOCTYPE html>
+<html>
+    <title>
+
+    </title>
+    <body>
+        <div id="blog-post-demo">
+            <blog-post
+            v-for="post in posts"
+            v-bind:key="post.id"
+            v-bind:post="post"
+            ></blog-post>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        Vue.component(
+            'blog-post',{
+                props:['post'],
+                template:
+                `
+                <div class="blog-post">
+                <h3>{{ post.title }}</h3>
+                <div v-html="post.content"></div>
+                </div>
+            `
+        })
+
+        new Vue({ 
+            el: '#blog-post-demo',
+            data:{
+                posts:
+                [
+                { id: 1, title: 'My journey with Vue' 				  ,content:'111111111111111111111111111111111111111111111'},
+                { id: 2, title: 'Blogging with Vue' , content:'22222222222222222222222222222222222222222'},
+                { id: 3, title: 'Why Vue is so fun',content:'3333333333333333333333333333333333333333333' }
+                ]
+            } 
+        })
+    </script>
+</html>
+```
+
+## 监听子组件事件
+
+### 向事件抛出一个值
+
+​	引入一个辅助功能来放大博文的字号，同时让页面的其它部分保持默认的字号。
+
+```html
+<!DOCTYPE html>
+<html>
+    <title>
+
+    </title>
+    <body>
+        <div id="blog-post-demo">
+            <div :style="{ fontSize: postFontSize + 'em' }">
+                <blog-post
+                v-for="post in posts"
+                v-bind:key="post.id"
+                v-bind:post="post"
+                v-on:enlarge-text="postFontSize += 0.1"
+                >
+                </blog-post>
+            </div>
+        </div>
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        Vue.component('blog-post',{
+            props:['post'],
+            template:`
+            <div class="blog-post">
+                <h3>{{ post.title }}</h3>
+                <button  v-on:click="$emit('enlarge-text')">
+                    Enlarge text
+                </button>
+                <div v-html="post.content"></div>
+            </div>
+            `
+        })
+        new Vue({
+            el:'#blog-post-demo',
+            data:{
+                posts:[
+                    {id:1, title:'My journey with Vue',content:'111111111111111111111111111111111111111'},
+                    {id:2,title:'Blogging with Vue',content:'2222222222222222222222222222222222222222222'},
+                    {id:3,title:'Why Vue is so fun',content:'3333333333333333333333333333333333333333333'}
+                ],
+                postFontSize:1,
+            }
+        })
+    </script>
+</html>vv
+```
+
+可能想让 `<blog-post>` 组件决定它的文本要放大多少。这时可以使用 `$emit` 的第二个参数来提供这个值，$event
+
+### 通过插槽分发内容
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue Slot Demo</title>
+  </head>
+  <body>
+    <div id="app">
+      <alert-box>
+        Something bad happened.
+      </alert-box>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      Vue.component('alert-box', {
+        template: `
+          <div class="demo-alert-box">
+            <strong>Error!</strong>
+            <slot></slot>
+          </div>
+        `
+      });
+
+      new Vue({
+        el: '#app'
+      });
+    </script>
+  </body>
+</html>
+```
+
+# 组件注册
+
+## 全局注册
+
+```html
+Vue.component('component-a', { /* ... */ })
+Vue.component('component-b', { /* ... */ })
+Vue.component('component-c', { /* ... */ })
+
+new Vue({ el: '#app' })
+```
+
+# Prop
+
+## 大小写
+
+Prop的大小写等价于驼峰命名
+
+![image-20231206145357846](C:\Users\sunha\Desktop\book\ReadingNotes\前端\vue.assets\image-20231206145357846.png)
 
 # Vue3
 
