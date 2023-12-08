@@ -317,6 +317,52 @@ v-on:click="xxx" == @click="xxx"
 
 ## 计算属性
 
+​	data中的叫属性，计算属性是和data同级的；
+
+​	是一个属性，不是方法
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue Slot Demo</title>
+  </head>
+  <body>
+    <div id="root">
+     姓：<input type="text" v-model="firstName"><br><br>
+     名：<input type="text" v-model="lastName"><br><br>
+     全名：<span>{{ fullName }}</span>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      const vm = new Vue({
+        el:'#root',
+        data:{
+          firstName:'张',
+          lastName:'三'
+        },
+        computed:{
+          fullName:{
+            //get调用时机：初次调用fullNmae时，或所依赖的数据发生变化时
+            get(){
+              console.log('get被调用了');
+              return this.firstName+'-'+this.lastName;
+            },
+            set(value){
+              const arr = value.split('-');
+              this.firstName = arr[0];
+              this.lastName = arr[1];
+            }
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
+```
+
+
+
 ```html
 <!DOCTYPE html>
 <html>
@@ -347,6 +393,12 @@ v-on:click="xxx" == @click="xxx"
 ```
 
 ​		**计算属性是基于它们的响应式依赖进行缓存的**。只在相关响应式依赖发生改变时它们才会重新求值。这就意味着只要 `message` 还没有发生改变，多次访问 `reversedMessage` 计算属性会立即返回之前的计算结果。
+
+### 简写
+
+​	前提：确定计算属性只读不改
+
+​	直接把get当成function来写
 
 ## 侦听器
 
