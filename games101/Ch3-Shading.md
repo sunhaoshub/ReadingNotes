@@ -195,3 +195,20 @@ Shader是通用的，适用于每一个顶点或像素
 ## Mipmap
 
 允许做近似的、正方形的快速范围查询
+
+## Bump Mapping
+
+法线贴图，可以定义一个复杂的纹理，而不改变几何形体；
+
+把任何一个像素的法线，做一个扰动（纹理定义了相邻位置的相对高度移动）；
+
+![image-20231209152432601](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231209152432601.png)
+
+![image-20231209152905257](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231209152905257.png)
+
+![image-20231209153139399](C:\Users\sunha\Desktop\book\ReadingNotes\games101\Ch3-Shading.assets\image-20231209153139399.png)
+
+## DisplacementMapping
+
+位移贴图
+
