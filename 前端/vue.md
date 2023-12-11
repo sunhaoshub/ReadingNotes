@@ -141,6 +141,58 @@ v-bind:title="message"的含义是将该元素节点的title与Vue实例的messa
 </html>
 ```
 
+##### 遍历对象
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vue Slot Demo</title>
+  </head>
+  <body>
+    <div id="root">
+      <h2>遍历数组</h2>
+     <ul>
+      <li v-for="(person,index) in perons"::key="index">{{ person.name }}------{{ person.age }}</li>
+     </ul>
+     <h2>遍历对象</h2>
+     <ul>
+      <li v-for="(value,key) in car":key="key">{{ key }}---------{{ value }}</li>
+     </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      const vm = new Vue({
+        el:'#root',
+        data:{
+          perons:[
+            {id:'001',name:'张三',age:18},
+            {id:'002',name:'李四',age:19},
+            {id:'001',name:'王五',age:20},
+          ],
+          car:{
+            name:'奥迪A8',
+            price:'70w',
+            color:'black'
+          }
+        },
+        
+      })
+    </script>
+  </body>
+</html>
+```
+
+
+
+
+
+##### key
+
+![image-20231211092109800](C:\Users\sunha\Desktop\book\ReadingNotes\前端\vue.assets\image-20231211092109800.png)
+
+![image-20231211092124052](C:\Users\sunha\Desktop\book\ReadingNotes\前端\vue.assets\image-20231211092124052.png)
+
 ### 处理用户的输入
 
 #### v-on
@@ -403,6 +455,12 @@ v-on:click="xxx" == @click="xxx"
 ## 侦听器
 
 ​	 Vue 通过 `watch` 选项提供了一个更通用的方法，来响应数据的变化。当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
+
+# 生命周期
+
+mounted（挂载完毕），Vue完成模板解析并把初始的真实的DOM元素放入页面后调用
+
+![生命周期.png](C:\Users\sunha\Desktop\book\ReadingNotes\前端\vue.assets\生命周期.png)
 
 # 组件基础
 
