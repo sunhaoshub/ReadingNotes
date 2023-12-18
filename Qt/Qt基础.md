@@ -151,3 +151,274 @@ MainWindow::~MainWindow()
 }
 ```
 
+# QWidget
+
+
+
+```C++
+//构造函数
+QWidget::QWidget(QWidget* parent = nullptr,Qt::WindowFlags f = new WindowFlags());
+//WindowFlags：显示窗口边框
+
+//设置父对象
+void QWidget::setParent(QWidget* parent);
+//获取当前窗口的父对象
+QWidget* QWidget::parentWidget() const;
+
+
+//信号
+void customContextMenuRequested(const QPoint& pos);
+void windowIconCHanged(const QIcon& icon);
+void windowTitleChanged(const QString& title);
+```
+
+
+
+```C++
+#include "widget.h"
+#include "ui_widget.h"
+#include<QDebug>
+
+Widget::Widget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget)
+{
+    ui->setupUi(this);
+    //设置窗口最小值
+    //setMinimumSize(300,300);
+    //设置窗口最大值
+    //setMaximumSize(600,600);
+    //设置固定大小窗口
+    //setFixedSize(500,500);
+    //设置窗口标题
+    setWindowTitle("Hello,Qt");
+    //设置窗口图标
+    //setWindowIcon
+}
+
+Widget::~Widget()
+{
+    delete ui;
+}
+
+void Widget::on_moveBtn_clicked()
+{
+    QRect rect = this->geometry();
+    move(rect.topLeft()+QPoint(10,20));
+}
+
+void Widget::on_positionBtn_clicked()
+{
+    QRect rect = this->frameGeometry();
+    qDebug() << "左上角: " << rect.topLeft()
+                 << "右上角: " << rect.topRight()
+                 << "左下角: " << rect.bottomLeft()
+                 << "右下角: " << rect.bottomRight()
+                 << "宽度: " << rect.width()
+                 << "高度: " << rect.height();
+
+}
+
+void Widget::on_geometryBtn_clicked()
+{
+    int x = 100 + rand() % 500;
+        int y = 100 + rand() % 500;
+        int width = this->width() + 100;
+        int height = this->height() + 100;
+    setGeometry(x,y,width,height);
+
+}
+```
+
+```C++
+#include "widget.h"
+#include "ui_widget.h"
+#include<QDebug>
+#include<QMainWindow>
+Widget::Widget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget)
+{
+    ui->setupUi(this);
+    //设置窗口最小值
+    //setMinimumSize(300,300);
+    //设置窗口最大值
+    //setMaximumSize(600,600);
+    //设置固定大小窗口
+    //setFixedSize(500,500);
+    //设置窗口标题
+    setWindowTitle("Hello,Qt");
+    //设置窗口图标
+    setWindowIcon(QIcon("C:\\Users\\sunha\\Desktop\\book\\ReadingNotes\\Qt\\Icon.webp"));
+    //QWidget信号槽
+    connect(this,&Widget::windowTitleChanged,this,[=](const QString& title){
+        qDebug()<<"修改后的标题"<<title;
+    });
+    connect(this,&Widget::windowIconChanged,this,[=](const QIcon& icon){
+        qDebug()<<"图标改变了";
+    });
+    //右键显示菜单
+    //1.发出信号
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this,&Widget::customContextMenuRequested,this,[=](const QPoint& pos){
+        QMenu menu;
+        menu.addAction("a");
+        menu.exec(QCursor::pos());
+    });
+}
+
+Widget::~Widget()
+{
+    delete ui;
+}
+
+void Widget::on_moveBtn_clicked()
+{
+    QRect rect = this->geometry();
+    move(rect.topLeft()+QPoint(10,20));
+}
+
+void Widget::on_positionBtn_clicked()
+{
+    QRect rect = this->frameGeometry();
+    qDebug() << "左上角: " << rect.topLeft()
+                 << "右上角: " << rect.topRight()
+                 << "左下角: " << rect.bottomLeft()
+                 << "右下角: " << rect.bottomRight()
+                 << "宽度: " << rect.width()
+                 << "高度: " << rect.height();
+
+}
+
+void Widget::on_geometryBtn_clicked()
+{
+    int x = 100 + rand() % 500;
+        int y = 100 + rand() % 500;
+        int width = this->width() + 100;
+        int height = this->height() + 100;
+    setGeometry(x,y,width,height);
+
+}
+
+void Widget::on_modifyBtn_clicked()
+{
+    setWindowTitle("Hello,World");
+    setWindowIcon(QIcon("C:\\Users\\sunha\\Desktop\\book\\ReadingNotes\\Qt\\icon2.webp"));
+}
+```
+
+# QDialog
+
+MyDialog.cpp
+
+```
+#include "mydialog.h"
+#include "ui_mydialog.h"
+
+MyDialog::MyDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::MyDialog)
+{
+    ui->setupUi(this);
+}
+
+MyDialog::~MyDialog()
+{
+    delete ui;
+}
+
+void MyDialog::on_acceptBtn_clicked()
+{
+    this->accept();
+}
+
+void MyDialog::on_rejectBtn_clicked()
+{
+    this->reject();
+}
+
+void MyDialog::on_doneBtn_clicked()
+{
+    this->done(1);
+}
+
+```
+
+widget.cpp
+
+```C++
+#include "widget.h"
+#include "ui_widget.h"
+#include<QDebug>
+#include<QMainWindow>
+
+Widget::Widget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::Widget)
+{
+    ui->setupUi(this);
+}
+
+Widget::~Widget()
+{
+    delete ui;
+}
+
+void Widget::on_modelBtn_clicked()
+{
+    MyDialog dialog;
+    connect(&dialog,&QDialog::accepted,this,[=](){
+       qDebug()<<"accept 信号被接受了";
+    });
+    connect(&dialog,&QDialog::rejected,this,[=](){
+       qDebug()<<"reject 信号被接受了";
+    });
+    connect(&dialog,&QDialog::finished,this,[=](int res){
+       qDebug()<<"finished 信号被接受了："<<res;
+    });
+    int ret = dialog.exec();
+    if(ret == QDialog::Accepted)
+    {
+        qDebug()<<"accept button clicked";
+    }
+    else if(ret == QDialog::Rejected)
+    {
+         qDebug()<<"reject button clicked";
+    }
+    else
+    {
+         qDebug()<<"done button clicked";
+    }
+}
+
+```
+
+# QFileDialog
+
+## 静态成员方法
+
+```
+//获取一个目录的绝对路径
+QString QDileDialog::getExistingDirectory();
+//获取一个文件的绝对路径
+QString QDileDialog::getOpenFIleName();
+//获取多个文件的绝对路径
+QStringList QFileDialog::getOpenFileNames();
+//打开一个目录，用这个目录来保存指定的文件
+QStringList QFileDialog::getSaveFileName();
+
+
+/*
+通用参数:
+  - parent: 当前对话框窗口的父对象也就是父窗口
+  - caption: 当前对话框窗口的标题
+  - dir: 当前对话框窗口打开的默认目录
+  - options: 当前对话框窗口的一些可选项,枚举类型, 一般不需要进行设置, 使用默认值即可
+  - filter: 过滤器, 在对话框中只显示满足条件的文件, 可以指定多个过滤器, 使用 ;; 分隔
+    - 样式举例: 
+	- Images (*.png *.jpg)
+	- Images (*.png *.jpg);;Text files (*.txt)
+  - selectedFilter: 如果指定了多个过滤器, 通过该参数指定默认使用哪一个, 不指定默认使用第一个过滤器
+*/
+```
+
