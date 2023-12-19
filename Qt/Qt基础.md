@@ -401,7 +401,7 @@ void Widget::on_modelBtn_clicked()
 //获取一个目录的绝对路径
 QString QDileDialog::getExistingDirectory();
 //获取一个文件的绝对路径
-QString QDileDialog::getOpenFIleName();
+QString QDileDialog::getOpenFileName();
 //获取多个文件的绝对路径
 QStringList QFileDialog::getOpenFileNames();
 //打开一个目录，用这个目录来保存指定的文件
@@ -422,3 +422,53 @@ QStringList QFileDialog::getSaveFileName();
 */
 ```
 
+```C++
+#include "dialog.h"
+#include "ui_dialog.h"
+#include<QFileDialog>
+#include<QMessageBox>
+#include<QDebug>
+
+Dialog::Dialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::Dialog)
+{
+    ui->setupUi(this);
+}
+
+Dialog::~Dialog()
+{
+    delete ui;
+}
+
+void Dialog::on_filedDlg_clicked()
+{
+    QString dirName = QFileDialog::getExistingDirectory(this,u8"open file","C:\\");
+    QMessageBox::information(this,"打开目录","选择的目录是："+dirName);
+}
+
+void Dialog::on_openFile_clicked()
+{
+    QString arg("Text files (*.txt)");
+    QString fileName = QFileDialog::getOpenFileName(this,"open file",
+                                                    "C:\\Users\\sunha\\Desktop\\book", "Images (*.png *.jpg);;Text files (*.txt);;pdf files(*.pdf);;zip files(*.zip *.rar)",&arg);
+    QMessageBox::information(this,"打开文件","打开的文件是："+fileName);
+}
+
+void Dialog::on_multiFiles_clicked()
+{
+    QString arg("Text files (*.txt)");
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,"open file",
+                                       "C:\\Users\\sunha\\Desktop\\book","Images (*.png *.jpg);;Text files (*.txt);;pdf files(*.pdf);;zip files(*.zip *.rar)",&arg);
+    QString names;
+    for(int i=0;i < fileNames.size();i++)
+    {
+        names += fileNames.at(i)+" ";
+    }
+    qDebug()<<names;
+    QMessageBox::information(this,"打开文件(s)","打开的文件是："+names);
+}
+
+```
+
+# QInputDialog
