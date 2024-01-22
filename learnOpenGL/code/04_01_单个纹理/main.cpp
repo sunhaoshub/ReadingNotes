@@ -1,7 +1,8 @@
+#include<iostream>
 #include<glad/glad.h>
 #include<GLFW/glfw3.h>
 #include"stb_image.h"
-#include<iostream>
+#include"shader_s.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -36,72 +37,74 @@ int main()
 		return -1;
 	}
 
-	//顶点着色器
-	const char* vertexShaderSource =
-		"#version 330 core\n"
-		"layout (location=0) in vec3 aPos;\n"
-		"layout (location=1) in vec2 aTexture;\n"
-		"out vec2 TexCoord;\n"
-		"void main()\n"
-		"{\n"
-		"gl_Position = vec4(aPos,1.0f);\n"
-		"TexCoord = aTexture;\n"
-		"}\0"
-		;
+	////顶点着色器
+	//const char* vertexShaderSource =
+	//	"#version 330 core\n"
+	//	"layout (location=0) in vec3 aPos;\n"
+	//	"layout (location=1) in vec2 aTexture;\n"
+	//	"out vec2 TexCoord;\n"
+	//	"void main()\n"
+	//	"{\n"
+	//	"gl_Position = vec4(aPos,1.0f);\n"
+	//	"TexCoord = aTexture;\n"
+	//	"}\0"
+	//	;
 
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
+	//unsigned int vertexShader;
+	//vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	//glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	//glCompileShader(vertexShader);
 
-	int  success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
+	//int  success;
+	//char infoLog[512];
+	//glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+	//if (!success)
+	//{
+	//	glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+	//	std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+	//}
 
-	//片段着色器
-	const char* fragmentShaderSource =
-		"#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"uniform sampler2D ourTexture;\n"
-		"in vec2 TexCoord;\n"
-		"void main()\n"
-		"{\n"
-		"FragColor = texture(ourTexture,TexCoord);\n"
-		"}\0"
-		;
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
+	////片段着色器
+	//const char* fragmentShaderSource =
+	//	"#version 330 core\n"
+	//	"out vec4 FragColor;\n"
+	//	"uniform sampler2D ourTexture;\n"
+	//	"in vec2 TexCoord;\n"
+	//	"void main()\n"
+	//	"{\n"
+	//	"FragColor = texture(ourTexture,TexCoord);\n"
+	//	"}\0"
+	//	;
+	//unsigned int fragmentShader;
+	//fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	//glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	//glCompileShader(fragmentShader);
 
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
+	//glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+	//if (!success)
+	//{
+	//	glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+	//	std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+	//}
 
-	//着色器程序对象
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
+	////着色器程序对象
+	//unsigned int shaderProgram;
+	//shaderProgram = glCreateProgram();
+	//glAttachShader(shaderProgram, vertexShader);
+	//glAttachShader(shaderProgram, fragmentShader);
+	//glLinkProgram(shaderProgram);
 
-	glGetShaderiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::LINK::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
+	//glGetShaderiv(shaderProgram, GL_LINK_STATUS, &success);
+	//if (!success)
+	//{
+	//	glGetShaderInfoLog(shaderProgram, 512, NULL, infoLog);
+	//	std::cout << "ERROR::SHADER::LINK::COMPILATION_FAILED\n" << infoLog << std::endl;
+	//}
+	Shader ourShader("C:\\Users\\sunha\\Desktop\\book\\ReadingNotes\\learnOpenGL\\Shader\\4.1.texture.vs",
+		"C:\\Users\\sunha\\Desktop\\book\\ReadingNotes\\learnOpenGL\\Shader\\4.1.texture.fs"
+		);
 	//顶点
-	float vertices[] = 
+	float vertices[] =
 	{
 		//     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
 			 0.5f,  0.5f, 0.0f,   1.0f, 1.0f,   // 右上
@@ -116,7 +119,7 @@ int main()
 		0,1,3,1,2,3
 	};
 
-	unsigned int VAO, VBO,EBO;
+	unsigned int VAO, VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glGenBuffers(1, &VBO);
@@ -127,7 +130,7 @@ int main()
 	//解析数据
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3*sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
@@ -135,7 +138,7 @@ int main()
 
 	//纹理贴图
 	unsigned int texture;
-	glGenTextures(1,&texture);
+	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	//指定纹理环绕方式和过滤方式
@@ -147,7 +150,7 @@ int main()
 
 	//引入纹理图片
 	int width, height, nrChannels;
-	unsigned char* data = stbi_load("C:\\Users\\sunha\\Desktop\\book\\ReadingNotes\\learnOpenGL\\container.jpg", &width,&height,&nrChannels,0);
+	unsigned char* data = stbi_load("C:\\Users\\sunha\\Desktop\\book\\ReadingNotes\\learnOpenGL\\container.jpg", &width, &height, &nrChannels, 0);
 	if (data)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -161,7 +164,7 @@ int main()
 
 	//视口变换
 	glViewport(0, 0, 800, 600);
-	glfwSetFramebufferSizeCallback(window,framebuffer_size_callback);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	//渲染
 	while (!glfwWindowShouldClose(window))
@@ -171,7 +174,7 @@ int main()
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram);
+		ourShader.use();
 		glBindVertexArray(VAO);
 		glBindTexture(GL_TEXTURE_2D, texture);
 		//glDrawArrays(GL_TRIANGLES, 0, 3);
