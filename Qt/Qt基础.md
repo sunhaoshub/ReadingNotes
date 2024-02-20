@@ -153,6 +153,14 @@ MainWindow::~MainWindow()
 
 # QWidget
 
+![窗口类继承关系](https://subingwen.cn/qt/qt-base-window/image-20201009170432819-420ab17b1be841bb9fb2a976e79ea591.png)
+
+所有窗口类的父类
+
+
+
+主要看public functions、public slots、signal
+
 
 
 ```C++
@@ -167,9 +175,29 @@ QWidget* QWidget::parentWidget() const;
 
 
 //信号
-void customContextMenuRequested(const QPoint& pos);
-void windowIconCHanged(const QIcon& icon);
-void windowTitleChanged(const QString& title);
+void customContextMenuRequested(const QPoint& pos);//显示右键菜单时使用
+void windowIconCHanged(const QIcon& icon);//窗体图标发生变化
+void windowTitleChanged(const QString& title);//窗体标题发生变化
+
+//得到相对于当前窗口父对象得位置信息，不包括边框
+const QRect &geometry() const;//第二个const确保不修改函数内部的成员变量
+//包括边框
+const QRect &framegeometry() const;
+
+//设置当前窗口的几何信息
+void setGeometry(int x,int y,int w,int h);
+void setGeometry(const QRect&);
+
+//移动窗口
+void move(int x,int y);
+void move(const QPoint&);
+
+//设置宽高
+
+//设置窗口图标、标题
+
+//窗口显示
+show() close()
 ```
 
 
@@ -192,8 +220,8 @@ Widget::Widget(QWidget *parent) :
     //setFixedSize(500,500);
     //设置窗口标题
     setWindowTitle("Hello,Qt");
-    //设置窗口图标
-    //setWindowIcon
+    //设置窗口图标 C++11新特性
+    setWindowIcon(QIcon(R"(C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Icon.webp;)"));
 }
 
 Widget::~Widget()
