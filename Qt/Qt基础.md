@@ -335,11 +335,73 @@ void Widget::on_modifyBtn_clicked()
 }
 ```
 
+菜单：QMenu，菜单项：QAction 使用addAction方法来添加菜单项
+
+设置右键窗口菜单策略函数：setContextMenuPolicy(Qt::ContextMenuPolicy policy);
+
+参数为枚举类型，当枚举值为CustomContextMenu时，会发射出customContextMenuRequested信号，别的不会
+
+```c++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QDebug>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    setMaximumSize(600,600);
+    setMinimumSize(300,300);
+    setWindowIcon(QIcon(R"(C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Icon.webp;)"));
+    setWindowTitle("hello,qt");
+
+    //设置右键策略为显示菜单
+    setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(this,&MainWindow::customContextMenuRequested,this,[=](const QPoint& pos){
+        QMenu menu;
+        menu.addAction("A");
+        menu.addAction("B");
+        menu.addAction("C");
+        menu.exec(QCursor::pos());
+    });
+}
+
+```
+
+
+
 # QDialog
+
+模态、非模态
+
+模态：当前窗口打开时不能操作其他
+
+
+
+```
+signals:
+accepted();
+rejected();
+finished(int result);
+
+slots:
+//模态对话框关闭的三种方式：
+accept();
+reject();
+done(int r);
+exec();
+open();
+```
+
+
+
+
 
 MyDialog.cpp
 
-```
+```C++
 #include "mydialog.h"
 #include "ui_mydialog.h"
 
@@ -355,6 +417,7 @@ MyDialog::~MyDialog()
     delete ui;
 }
 
+//隐藏模态对话框
 void MyDialog::on_acceptBtn_clicked()
 {
     this->accept();
@@ -367,7 +430,7 @@ void MyDialog::on_rejectBtn_clicked()
 
 void MyDialog::on_doneBtn_clicked()
 {
-    this->done(1);
+    this->done(10);
 }
 
 ```
@@ -404,6 +467,7 @@ void Widget::on_modelBtn_clicked()
     connect(&dialog,&QDialog::finished,this,[=](int res){
        qDebug()<<"finished 信号被接受了："<<res;
     });
+    //显示模态对话框
     int ret = dialog.exec();
     if(ret == QDialog::Accepted)
     {
