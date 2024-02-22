@@ -25,6 +25,27 @@ Qt4：
 
 ## 标准信号槽
 
+```c++
+//点击按钮关闭窗口
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    connect(ui->closeBtn,&QPushButton::clicked,this,&MainWindow::close);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+```
+
+
+
 ## 自定义信号槽
 
 * 自定义的信号或槽是需要在新的类中实现，而不是在已有的类中添加；
@@ -485,9 +506,58 @@ void Widget::on_modelBtn_clicked()
 
 ```
 
-# QFileDialog
+# QDialog子类
 
-## 静态成员方法
+## 1.QMessageBox
+
+消息提示框（模态）
+
+只关注静态方法、图标会继承父窗口
+
+```
+静态函数：
+about、critical、question、information、warning
+```
+
+
+
+```C++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QMessageBox>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_msgBtn_clicked()
+{
+    QMessageBox::about(this,"about","简单的消息提示框");
+    QMessageBox::critical(this,"critical","错误的消息提示框");
+    int res = QMessageBox::question(this,"question","你需要保存修改的文件内容吗？",
+                                    QMessageBox::Save|QMessageBox::Cancel,QMessageBox::Cancel);
+    if(res == QMessageBox::Save)
+        QMessageBox::information(this,"information","保存信息成功");
+    else if(res == QMessageBox::Cancel)
+        QMessageBox::warning(this,"warning","你已放弃保存");
+
+}
+
+```
+
+
+
+## 2.QFileDialog
+
+### 静态成员方法
 
 ```
 //获取一个目录的绝对路径
@@ -563,4 +633,202 @@ void Dialog::on_multiFiles_clicked()
 
 ```
 
-# QInputDialog
+## 3.QInputDialog
+
+```
+静态函数：
+ getDouble()、getInt()、getItem()（下拉框）、getText()、getMultiLineText()、getText()
+```
+
+getInt：
+
+```C++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QMessageBox>
+#include<QFileDialog>
+#include<QMessageBox>
+#include<QInputDialog>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+void MainWindow::on_fileDlg_clicked()
+{
+    //QString dir = QFileDialog::getExistingDirectory(this,"existingdistory","C:\\");
+    QString filter = "Text Files (*.txt);;Image (*.gif)";
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,"打开文件","D:\\",filter);
+    QString names;
+    for(int i = 0;i < fileNames.size();i++)
+        names += fileNames.at(i)+" ";
+    QMessageBox::information(this,"打开目录","您打开的文件是："+names);
+}
+
+void MainWindow::on_inputDlg_clicked()
+{
+    int res = QInputDialog::getInt(this,"输入年龄","您的年龄是：",10,1,100,1);
+    QMessageBox::information(this,"年龄","当前的年龄是："+QString::number(res));
+}
+```
+
+![image-20240222192243571](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240222192243571.png)
+
+![image-20240222192255310](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240222192255310.png)
+
+getDouble类似
+
+getItem：
+
+```C++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QMessageBox>
+#include<QFileDialog>
+#include<QMessageBox>
+#include<QInputDialog>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+void MainWindow::on_fileDlg_clicked()
+{
+    //QString dir = QFileDialog::getExistingDirectory(this,"existingdistory","C:\\");
+    QString filter = "Text Files (*.txt);;Image (*.gif)";
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,"打开文件","D:\\",filter);
+    QString names;
+    for(int i = 0;i < fileNames.size();i++)
+        names += fileNames.at(i)+" ";
+    QMessageBox::information(this,"打开目录","您打开的文件是："+names);
+}
+
+void MainWindow::on_inputDlg_clicked()
+{
+    QStringList items;
+    items<<"A"<<"B"<<"C"<<"D"<<"E"<<"F"<<"G";
+    QString item = QInputDialog::getItem(this,"下拉框","选择：",items,0,false);
+    QMessageBox::information(this,"结果","选择了"+item);
+}
+
+```
+
+![image-20240222193911264](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240222193911264.png)
+
+getText:
+
+```C++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QMessageBox>
+#include<QFileDialog>
+#include<QMessageBox>
+#include<QInputDialog>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+void MainWindow::on_fileDlg_clicked()
+{
+    //QString dir = QFileDialog::getExistingDirectory(this,"existingdistory","C:\\");
+    QString filter = "Text Files (*.txt);;Image (*.gif)";
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,"打开文件","D:\\",filter);
+    QString names;
+    for(int i = 0;i < fileNames.size();i++)
+        names += fileNames.at(i)+" ";
+    QMessageBox::information(this,"打开目录","您打开的文件是："+names);
+}
+
+void MainWindow::on_inputDlg_clicked()
+{
+    QString res = QInputDialog::getText(this,"输入内容","输入的是：",QLineEdit::Password,"123456");
+    QMessageBox::information(this,"结果","结果是："+res);
+}
+
+```
+
+![image-20240222194532318](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240222194532318.png)
+
+## 4.QProgressDialog
+
+```C++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QMessageBox>
+#include<QFileDialog>
+#include<QMessageBox>
+#include<QInputDialog>
+#include<QProgressDialog>
+#include<QTimer>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+void MainWindow::on_fileDlg_clicked()
+{
+    //QString dir = QFileDialog::getExistingDirectory(this,"existingdistory","C:\\");
+    QString filter = "Text Files (*.txt);;Image (*.gif)";
+    QStringList fileNames = QFileDialog::getOpenFileNames(this,"打开文件","D:\\",filter);
+    QString names;
+    for(int i = 0;i < fileNames.size();i++)
+        names += fileNames.at(i)+" ";
+    QMessageBox::information(this,"打开目录","您打开的文件是："+names);
+}
+
+void MainWindow::on_inputDlg_clicked()
+{
+    QProgressDialog * bar = new QProgressDialog ("拷贝进度","取消拷贝",0,100,this);
+    bar->setWindowTitle("拷贝文件");
+    bar->show();
+    static int value = 0;
+    QTimer* timer = new QTimer(this);
+    connect(timer,&QTimer::timeout,this,[=](){
+        bar->setValue(value);
+        value++;
+        if(value > bar->maximum())
+        {
+            timer->stop();
+            value = 0;
+        }
+    });
+    connect(bar,&QProgressDialog::canceled,this,[=](){
+        timer->stop();
+        value = 0;
+    });
+
+    timer->start(70);
+  }
+
+```
+
+![image-20240222202548863](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240222202548863.png)
