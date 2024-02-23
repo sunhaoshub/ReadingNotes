@@ -832,3 +832,64 @@ void MainWindow::on_inputDlg_clicked()
 ```
 
 ![image-20240222202548863](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240222202548863.png)
+
+# QMainWindow
+
+主窗口类，可以添加菜单栏、工具栏
+
+![QMainWindow类型窗口结构](https://subingwen.cn/qt/qt-base-window/image-b255c1da57dc41f780f16f3e82f75f7c.png)
+
+菜单栏：在下方新建,信号：triggered
+
+```C++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QMessageBox>
+#include<QFileDialog>
+#include<QMessageBox>
+#include<QInputDialog>
+#include<QProgressDialog>
+#include<QTimer>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    connect(ui->saveAction,&QAction::triggered,this,[=](){
+        QMessageBox::information(this,"保存","保存成功");
+    });
+    connect(ui->openAction,&QAction::triggered,this,[=](){
+        QMessageBox::information(this,"打开","打开成功");
+    });
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+```
+
+
+
+工具栏：上下左右都可以停靠
+
+![image-20240223140852718](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240223140852718.png)
+
+添加控件：addWidget
+
+![image-20240223142720314](C:\Users\sunha\Desktop\book\ReadingNotes\Qt\Qt基础.assets\image-20240223142720314.png)
+
+状态栏：QStatusBar
+
+停靠窗口：dock widget
+
+# 资源文件
+
+qrc文件
+
+添加前缀和文件
+
+右键复制文件路径
+
+文件放在.pro项目文件同级或更深层次的目录中
