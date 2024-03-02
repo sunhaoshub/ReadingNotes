@@ -202,3 +202,44 @@ void Generate::run()
 
 ```
 
+## 使用方法2
+
+1.创建一个新的类，让这个类从QObject类中派生
+
+```C++
+class MyWork:public QObject
+{}
+```
+
+2.在类中添加一个公共成员函数(可以自由传递参数)，函数体就是子线程的业务逻辑
+
+```C++
+class MyWork:public QObject
+{
+    public:
+    	void working();
+}
+```
+
+3.在主线程中创建QThread对象
+
+```C++
+QTread* thread = new QThread;
+```
+
+4.创建工作类对象(不要指定父对象)
+
+```C++
+MyWork* work = new MyWork;
+```
+
+5.将工作对象移动到子线程中，使用QObject类提供的moveToThread方法
+
+```C++
+work->moveToThread(sub);
+```
+
+6.调用start方法启动线程，但线程没有工作
+
+7.调用工作类的工作函数开始使用
+
