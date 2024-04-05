@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>false.webp</file>
+        <file>true.webp</file>
+    </qresource>
+</RCC>
