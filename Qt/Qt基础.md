@@ -55,18 +55,84 @@ MainWindow::~MainWindow()
 
 * void类型
 * 用signals声明，类似public
-* 只需声明，无需定义
+* **只需声明，无需定义**
 * **需要通过其他手段将自定义信号发射出去**；
 
 ### 自定义槽
 
 * 参数个数与信号对应（大于等于即可）
-
 * 使用`public slots`声明
-
 * 需要在对应的cpp文件添加定义
 
-  
+
+mainwindow.h
+
+```C++
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+
+private slots:
+    void on_pushButton_clicked();
+
+private:
+    Ui::MainWindow *ui;
+    int value = 0;
+signals:
+    void valueadd();
+public slots:
+    void addValue();
+};
+
+#endif // MAINWINDOW_H
+```
+
+mainwindow.cpp
+
+```C++
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include<QDebug>
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    connect(this,&MainWindow::valueadd,this,&MainWindow::addValue);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    value++;
+    emit valueadd();
+}
+void MainWindow::addValue()
+{
+    qDebug()<<value;
+}
+
+```
+
+
 
 ## Lambda表达式
 
@@ -196,12 +262,12 @@ QWidget* QWidget::parentWidget() const;
 
 
 //信号
-void customContextMenuRequested(const QPoint& pos);//显示右键菜单时使用
+void customContextMenuRequested(const QPoint& pos);//显示右键菜单时使用，与QAction联合使用
 void windowIconCHanged(const QIcon& icon);//窗体图标发生变化
 void windowTitleChanged(const QString& title);//窗体标题发生变化
 
 //得到相对于当前窗口父对象得位置信息，不包括边框
-const QRect &geometry() const;//第二个const确保不修改函数内部的成员变量
+const QRect &geometry() const;//第二个const确保不修改函数内部的成员变量,用于类成员函数
 //包括边框
 const QRect &framegeometry() const;
 
@@ -397,7 +463,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 模态、非模态
 
-模态：当前窗口打开时不能操作其他
+模态：当前窗口打开时不能操作其他 exec
+
+非模态：show/open
 
 
 
