@@ -27,12 +27,16 @@ SOURCES += \
         main.cpp \
     gamepanel.cpp \
     card.cpp \
-    cardpanel.cpp
+    cardpanel.cpp \
+    player.cpp \
+    cards.cpp
 
 HEADERS += \
     gamepanel.h \
     card.h \
-    cardpanel.h
+    cardpanel.h \
+    player.h \
+    cards.h
 
 FORMS += \
         gamepane.ui
