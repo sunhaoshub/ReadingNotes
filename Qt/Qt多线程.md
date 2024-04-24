@@ -236,10 +236,10 @@ MyWork* work = new MyWork;
 5.将工作对象移动到子线程中，使用QObject类提供的moveToThread方法
 
 ```C++
-work->moveToThread(sub);
+work->moveToThread(thread);
 ```
 
-6.调用start方法启动线程，但线程没有工作
+6.调用start方法 启动线程，但线程没有工作;
 
 7.调用工作类的工作函数开始使用
 
