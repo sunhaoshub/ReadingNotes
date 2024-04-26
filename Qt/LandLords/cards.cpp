@@ -1,4 +1,5 @@
 ﻿#include "cards.h"
+#include"card.h"
 #include<QRandomGenerator>
 
 Cards::Cards()
@@ -6,12 +7,12 @@ Cards::Cards()
 
 }
 
-void Cards::add(Card &card)
+void Cards::add(const Card &card)
 {
     m_cards.insert(card);
 }
 
-void Cards::add(Cards &cards)
+void Cards::add(const Cards &cards)
 {
     m_cards.unite(cards.m_cards);//取并集
 }
@@ -59,7 +60,7 @@ Card::CardPoint Cards::maxPoint()
 
     if(!m_cards.isEmpty())
     {
-        for(auto it = m_cards.begin();i != m_cards.end();i++)
+        for(auto it = m_cards.begin();it != m_cards.end();it++)
         {
             if(it->point() > max)
                 max = it->point();
@@ -75,21 +76,21 @@ Card::CardPoint Cards::minPoint()
 
     if(!m_cards.isEmpty())
     {
-        for(auto it = m_cards.begin();i != m_cards.end();i++)
+        for(auto it = m_cards.begin();it != m_cards.end();it++)
         {
             if(it->point() < min)
-                max = it->point();
+                min = it->point();
         }
     }
 
     return min;
 }
 
-Card::CardPoint Cards::pointCount(Card::CardPoint point)
+int Cards::pointCount(Card::CardPoint point)
 {
     int count = 0;
 
-    for(auto it = m_cards.begin();i != m_cards.end();i++)
+    for(auto it = m_cards.begin();it != m_cards.end();it++)
     {
         if(it->point() == point)
            count++;
@@ -117,4 +118,16 @@ Card Cards::takeRandCard()
     m_cards.erase(it);
 
     return card;
+}
+
+CardList Cards::toCardList(Cards::SortType type)
+{
+    CardList list;
+    for(auto it = m_cards.begin();it!= m_cards.end();it++)
+        list<<*it;
+    if(type == Asc)
+        std::sort(list.begin(),list.end(),lessSort);
+    else if(type == Desc)
+        std::sort(list.begin(),list.end(),greaterSort);
+    return list;
 }

@@ -1,10 +1,13 @@
 ﻿#ifndef CARD_H
 #define CARD_H
 
+#include<QVector>
+
 //卡牌数据类
 class Card
 {
 public:
+
     Card();
     //花色
     enum CardSuit
@@ -40,11 +43,24 @@ public:
 
     void setPoint(CardPoint point);
     void setSuit(CardSuit suit);
-    CardSuit suit();
-    CardPoint point();
+    CardSuit suit() const;
+    CardPoint point() const;
+
+    //std::sort比较函数
+
 private:
     CardSuit m_suit;
     CardPoint m_point;
 };
 
+//定义别名
+using CardList = QVector<Card>;
+
+bool lessSort(const Card& A,const Card& B);
+bool greaterSort(const Card& A,const Card& B);
+
+//操作符重载
+bool operator ==(const Card&A,const Card& B);
+//重写qHash
+uint qHash(const Card& card);
 #endif // CARD_H

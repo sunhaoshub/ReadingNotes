@@ -6,11 +6,14 @@
 class Cards
 {
 public:
+    enum SortType{
+        Asc,Desc,NoSort
+    };
     Cards();
 
     //添加卡牌
-    void add(Card& card);
-    void add(Cards& cards);
+    void add(const Card& card);
+    void add(const Cards& cards);
 
     //重载<<运算符，使得能够一次插入多张卡牌
     Cards& operator << (const Card& card);
@@ -36,7 +39,7 @@ public:
     Card::CardPoint minPoint();
 
     //指定点数牌的数量
-    Card::CardPoint pointCount(Card::CardPoint point);
+    int pointCount(Card::CardPoint point);
 
     //是否包含某一/几张牌
     bool contains(const Card& card);
@@ -44,6 +47,9 @@ public:
 
     //随机取一张牌 模拟洗牌
     Card takeRandCard();
+
+    //将扑克牌排序
+    CardList toCardList(SortType type);
 private:
     QSet<Card> m_cards;
 };

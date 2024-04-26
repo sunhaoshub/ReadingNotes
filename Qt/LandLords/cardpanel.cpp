@@ -72,3 +72,8 @@ void CardPanel::paintEvent(QPaintEvent *event)
         p.drawPixmap(rect(),m_back);
     }
 }
+
+void CardPanel::mousePressEvent(QMouseEvent *event)
+{
+
+}

@@ -29,14 +29,20 @@ SOURCES += \
     card.cpp \
     cardpanel.cpp \
     player.cpp \
-    cards.cpp
+    cards.cpp \
+    robot.cpp \
+    userplayer.cpp \
+    gamecontrol.cpp
 
 HEADERS += \
     gamepanel.h \
     card.h \
     cardpanel.h \
     player.h \
-    cards.h
+    cards.h \
+    robot.h \
+    userplayer.h \
+    gamecontrol.h
 
 FORMS += \
         gamepane.ui
