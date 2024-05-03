@@ -1,8 +1,15 @@
 ﻿#include "card.h"
 
+
 Card::Card()
 {
 
+}
+
+Card::Card(CardPoint point1, CardSuit suit1)
+{
+    setPoint(point1);
+    setSuit(suit1);
 }
 
 void Card::setPoint(Card::CardPoint point)

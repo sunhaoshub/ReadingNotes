@@ -15,7 +15,7 @@ public:
     enum Role{Lord,Farmer};
     enum Sex{Man,Woman};
     enum Direction{Left,Right};//头像方位
-    enum Type{Robot,UsermUnknown};
+    enum Type{Robot,User,Unknown};
 
     //名字
     void setName(QString name);

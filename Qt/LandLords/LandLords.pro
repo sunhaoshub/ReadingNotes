@@ -31,8 +31,9 @@ SOURCES += \
     player.cpp \
     cards.cpp \
     robot.cpp \
+    gamecontrol.cpp \
     userplayer.cpp \
-    gamecontrol.cpp
+    scorepanel.cpp
 
 HEADERS += \
     gamepanel.h \
@@ -41,8 +42,10 @@ HEADERS += \
     player.h \
     cards.h \
     robot.h \
+    gamecontrol.h \
     userplayer.h \
-    gamecontrol.h
+    scorepanel.h
 
 FORMS += \
-        gamepane.ui
+    scorepanel.ui \
+    gamepanel.ui

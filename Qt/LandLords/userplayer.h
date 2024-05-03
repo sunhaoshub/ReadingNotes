@@ -6,9 +6,10 @@
 
 class UserPlayer : public Player
 {
+    Q_OBJECT
 public:
     using Player::Player;
-    UserPlayer();
+    explicit UserPlayer(QObject *parent = nullptr);
     void prepareLord() override;
     void preparePlayHand() override;
 };

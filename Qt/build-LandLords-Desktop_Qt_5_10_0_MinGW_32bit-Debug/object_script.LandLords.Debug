@@ -1,0 +1,17 @@
+INPUT(
+./debug\main.o
+./debug\gamepanel.o
+./debug\card.o
+./debug\cardpanel.o
+./debug\player.o
+./debug\cards.o
+./debug\robot.o
+./debug\gamecontrol.o
+./debug\userplayer.o
+./debug\moc_gamepanel.o
+./debug\moc_cardpanel.o
+./debug\moc_player.o
+./debug\moc_robot.o
+./debug\moc_gamecontrol.o
+./debug\moc_userplayer.o
+);

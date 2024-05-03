@@ -8,7 +8,7 @@ class Card
 {
 public:
 
-    Card();
+
     //花色
     enum CardSuit
     {
@@ -40,7 +40,8 @@ public:
         Card_BJ,
         Point_End
     };
-
+    Card();
+    Card(CardPoint point1,CardSuit suit1);
     void setPoint(CardPoint point);
     void setSuit(CardSuit suit);
     CardSuit suit() const;
