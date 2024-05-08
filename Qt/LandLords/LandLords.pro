@@ -33,7 +33,9 @@ SOURCES += \
     robot.cpp \
     gamecontrol.cpp \
     userplayer.cpp \
-    scorepanel.cpp
+    scorepanel.cpp \
+    mybutton.cpp \
+    buttongroup.cpp
 
 HEADERS += \
     gamepanel.h \
@@ -44,8 +46,14 @@ HEADERS += \
     robot.h \
     gamecontrol.h \
     userplayer.h \
-    scorepanel.h
+    scorepanel.h \
+    mybutton.h \
+    buttongroup.h
 
 FORMS += \
     scorepanel.ui \
-    gamepanel.ui
+    gamepanel.ui \
+    buttongroup.ui
+
+RESOURCES += \
+    res.qrc

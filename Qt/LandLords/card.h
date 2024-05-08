@@ -13,10 +13,10 @@ public:
     enum CardSuit
     {
         Suit_Begin,
+        Club,
         Diamond,
         Heart,
         Spade,
-        Club,
         Suit_End
     };
     //点数
@@ -47,7 +47,6 @@ public:
     CardSuit suit() const;
     CardPoint point() const;
 
-    //std::sort比较函数
 
 private:
     CardSuit m_suit;

@@ -1,4 +1,4 @@
-#ifndef SCOREPANEL_H
+﻿#ifndef SCOREPANEL_H
 #define SCOREPANEL_H
 
 #include <QWidget>
@@ -14,6 +14,7 @@ class ScorePanel : public QWidget
 public:
     explicit ScorePanel(QWidget *parent = 0);
     ~ScorePanel();
+    void setScores(int left,int right,int user);
 
 private:
     Ui::ScorePanel *ui;
